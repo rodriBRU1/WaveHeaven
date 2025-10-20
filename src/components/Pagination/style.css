@@ -1,0 +1,191 @@
+/* Contenedor principal de paginación */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  padding: 24px 0;
+}
+
+/* Información de página actual */
+.pagination-info {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.pagination-info strong {
+  color: #0d9488;
+  font-weight: 600;
+}
+
+/* Controles de paginación */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Botones de navegación (anterior, siguiente, inicio) */
+.pagination-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #d1d5db;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #374151;
+}
+
+.pagination-button:hover:not(:disabled) {
+  border-color: #0d9488;
+  background: #f0fdfa;
+  color: #0d9488;
+  transform: translateY(-2px);
+}
+
+.pagination-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #f9fafb;
+}
+
+/* Contenedor de números de página */
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Botones de número de página */
+.pagination-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 2px solid #d1d5db;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pagination-number:hover {
+  border-color: #0d9488;
+  background: #f0fdfa;
+  color: #0d9488;
+  transform: translateY(-2px);
+}
+
+/* Número de página activo */
+.pagination-number.active {
+  background: #0d9488;
+  border-color: #0d9488;
+  color: white;
+  font-weight: 600;
+  cursor: default;
+}
+
+.pagination-number.active:hover {
+  transform: none;
+}
+
+/* Puntos suspensivos */
+.pagination-ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  color: #9ca3af;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* ===== RESPONSIVE - TABLET ===== */
+@media (max-width: 768px) {
+  .pagination-container {
+    margin-top: 32px;
+    padding: 20px 0;
+  }
+
+  .pagination-button,
+  .pagination-number {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+
+  .pagination-controls {
+    gap: 6px;
+  }
+
+  .pagination-numbers {
+    gap: 4px;
+  }
+
+  .pagination-number {
+    font-size: 13px;
+    padding: 0 10px;
+  }
+}
+
+/* ===== RESPONSIVE - MOBILE ===== */
+@media (max-width: 480px) {
+  .pagination-container {
+    margin-top: 24px;
+    padding: 16px 0;
+    gap: 12px;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+  }
+
+  .pagination-button,
+  .pagination-number {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .pagination-button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .pagination-controls {
+    gap: 4px;
+  }
+
+  .pagination-numbers {
+    gap: 3px;
+  }
+
+  .pagination-number {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+
+  .pagination-ellipsis {
+    min-width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  /* En móviles muy pequeños, ocultar algunos números de página */
+  .pagination-numbers .pagination-number:nth-child(n+6) {
+    display: none;
+  }
+}

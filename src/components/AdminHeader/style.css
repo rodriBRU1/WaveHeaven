@@ -1,0 +1,222 @@
+.adminHeader {
+  position: sticky;
+  top: 0;
+  background-color: var(--white);
+  padding: 10px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.user-section:hover {
+  background-color: #f5f5f5;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #d0d0d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--white);
+  font-size: 14px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+/* Contenedor del logo clickeable */
+.contenedorLogo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 4px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0; /* Evita que se comprima */
+}
+
+.contenedorLogo:hover {
+  background-color: rgba(0, 125, 126, 0.05);
+}
+
+.logo {
+  font-size: clamp(16px, 4vw, 24px); /* Más responsive */
+  font-weight: bold;
+  color: #007d7e;
+  margin: 0;
+  user-select: none;
+  white-space: nowrap;
+  padding: 10px 2px;
+}
+
+.logoImagen {
+  width: clamp(40px, 8vw, 60px);
+  height: clamp(40px, 8vw, 60px);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+
+/* Media Queries para diferentes dispositivos */
+/* Tablets grandes (1024px - 1200px) */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .header {
+    padding: 8px 24px;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .header {
+    padding: 8px 20px;
+  }
+  
+  .contenedorLogo {
+    gap: 6px;
+  }
+}
+
+/* Tablets pequeñas (600px - 768px) */
+@media (max-width: 768px) and (min-width: 601px) {
+  .header {
+    padding: 6px 16px;
+  }
+  
+  .contenedorLogo {
+    gap: 5px;
+  }
+
+}
+
+/* Móviles grandes (480px - 600px) */
+@media (max-width: 600px) and (min-width: 481px) {
+  .header {
+    padding: 6px 12px;
+    min-height: 70px;
+  }
+  
+  .contenedorLogo {
+    gap: 4px;
+  }
+  
+}
+
+/* Móviles medianos (360px - 480px) */
+@media (max-width: 480px) and (min-width: 361px) {
+  .header {
+    padding: 5px 10px;
+    min-height: 65px;
+  }
+  
+  .contenedorLogo {
+    gap: 3px;
+  }
+  
+  .logo {
+    font-size: 14px;
+  }
+  
+  .logoImagen {
+    width: 35px;
+    height: 35px;
+  }
+  
+}
+
+/* Móviles pequeños (hasta 360px) */
+@media (max-width: 360px) {
+  .header {
+    padding: 4px 8px;
+    min-height: 60px;
+  }
+  
+  .contenedorLogo {
+    gap: 2px;
+  }
+  
+  .logo {
+    font-size: 12px;
+  }
+  
+  .logoImagen {
+    width: 30px;
+    height: 30px;
+  }
+  
+}
+
+/* Optimización para orientación landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 768px) {
+  .header {
+    padding: 3px 8px;
+    min-height: 50px;
+  }
+  
+  .logoImagen {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo {
+    font-size: 12px;
+  }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .contenedorLogo {
+    transition: none;
+  }
+}
+
+/* Focus states para accesibilidad */
+.contenedorLogo:focus {
+  outline: 2px solid #007d7e;
+  outline-offset: 2px;
+}
+
+/* Asegurar que los elementos no se desborden */
+@media (max-width: 320px) {
+  .header {
+    padding: 3px 5px;
+    min-height: 55px;
+  }
+  
+  .logo {
+    font-size: 11px;
+  }
+  
+  .logoImagen {
+    width: 25px;
+    height: 25px;
+  }
+}

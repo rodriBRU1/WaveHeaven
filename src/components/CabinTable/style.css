@@ -1,0 +1,40 @@
+/* Tabla */
+.table-container {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.cabin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cabin-table thead {
+  background-color: #f8f8f8;
+}
+
+.cabin-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cabin-table td {
+  padding: 16px;
+  border-top: 1px solid var(--border-color);
+  font-size: 14px;
+}
+
+.cabin-table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.cabin-table tbody tr:hover {
+  background-color: #fafafa;
+}

@@ -1,0 +1,249 @@
+/* Footer principal */
+.footer {
+  width: 100%;
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+  color: white;
+  margin-top: auto;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px 40px;
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* ===== BLOQUE IZQUIERDO - Logo y Copyright ===== */
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo svg {
+  flex-shrink: 0;
+}
+
+.footer-brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.footer-copyright {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-copyright p {
+  margin: 0;
+}
+
+/* ===== BLOQUE CENTRAL - Enlaces ===== */
+.footer-center {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.footer-links-column h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.footer-links-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links-column li {
+  margin-bottom: 12px;
+}
+
+.footer-links-column a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.footer-links-column a:hover {
+  color: white;
+  transform: translateX(4px);
+}
+
+/* ===== BLOQUE DERECHO - Redes Sociales ===== */
+.footer-right h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-social a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+}
+
+.footer-social svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== LÍNEA INFERIOR ===== */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 24px 40px;
+  text-align: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== RESPONSIVE - TABLET ===== */
+@media (max-width: 1024px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 50px 30px 30px;
+  }
+
+  .footer-left {
+    text-align: left;
+  }
+
+  .footer-center {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .footer-right {
+    text-align: left;
+  }
+
+  .footer-social {
+    justify-content: flex-start;
+  }
+}
+
+/* ===== RESPONSIVE - MOBILE ===== */
+@media (max-width: 768px) {
+  .footer-content {
+    padding: 40px 20px 20px;
+    gap: 32px;
+  }
+
+  .footer-left {
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .footer-brand {
+    font-size: 20px;
+  }
+
+  .footer-center {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-links-column h4 {
+    font-size: 15px;
+  }
+
+  .footer-links-column a {
+    font-size: 13px;
+  }
+
+  .footer-right h4 {
+    font-size: 15px;
+  }
+
+  .footer-social {
+    gap: 12px;
+  }
+
+  .footer-social a {
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer-bottom {
+    padding: 20px;
+  }
+
+  .footer-bottom p {
+    font-size: 13px;
+  }
+}
+
+/* ===== RESPONSIVE - MOBILE PEQUEÑO ===== */
+@media (max-width: 480px) {
+  .footer-content {
+    padding: 30px 16px 16px;
+  }
+
+  .footer-copyright {
+    font-size: 13px;
+  }
+
+  .footer-links-column li {
+    margin-bottom: 10px;
+  }
+
+  .footer-social a {
+    width: 38px;
+    height: 38px;
+  }
+
+  .footer-social svg {
+    width: 18px;
+    height: 18px;
+  }
+}
