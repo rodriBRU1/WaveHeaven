@@ -1,162 +1,161 @@
-
 import React, { useState, useEffect } from 'react';
 import "./style.css";
 import ProductCard from "../../components/ProductCard";
-import accommodations from "../../data/mockdata";
 import Header from "../../components/Header";
 import SearchBar from '../../components/SearchBar';
 import Footer from '../../components/Footer';
 import Pagination from '../../components/Pagination';
 
-// Función para obtener productos aleatorios sin repetir
-const getRandomProducts = (products, count = 20) => {
-  const shuffled = [...products];
-  
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  
-  return shuffled.slice(0, Math.min(count, products.length));
-};
-
 export default function Home() {
-  const [randomRecommendations, setRandomRecommendations] = useState([]);
+  // 1. ESTADO PARA LOS PRODUCTOS (Grid Principal)
+  const [products, setProducts] = useState([]); 
+  const [loading, setLoading] = useState(true);
   
-  // Estados para paginación de alojamientos
-  const [currentPageAccommodations, setCurrentPageAccommodations] = useState(1);
-  const itemsPerPage = 10;
+  // Estados para paginación del Backend
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [totalPages, setTotalPages] = useState(1);
 
-  // Estados para paginación de recomendaciones
-  const [currentPageRecommendations, setCurrentPageRecommendations] = useState(1);
+  // Estado para el buscador
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Generar productos aleatorios al montar el componente
+  // 2. ESTADO PARA RECOMENDACIONES (Separado)
+  const [randomRecommendations, setRandomRecommendations] = useState([]);
+
+  // URL del Backend
+  const API_URL = import.meta.env.VITE_API_URL || 'https://waveheaven-backend.onrender.com';
+
+  // --- CARGA DE DATOS ---
+
+  // A. Cargar lista principal (Paginada y con Búsqueda)
+  const fetchProducts = async (page, term = "") => {
+    setLoading(true);
+    try {
+      const pageToSend = page - 1;
+      let url = `${API_URL}/api/products?page=${pageToSend}&size=10`;
+      
+      // Si el usuario escribió algo, cambiamos al endpoint de búsqueda
+      if (term.trim()) {
+        url = `${API_URL}/api/products/search?name=${encodeURIComponent(term)}&page=${pageToSend}&size=10`;
+      }
+
+      const response = await fetch(url);
+      
+      if (response.ok) {
+        const data = await response.json();
+        const formattedProducts = (data.content || []).map(formatProductImage);
+        setProducts(formattedProducts);
+        setTotalPages(data.totalPages || 1);
+      } else {
+        setProducts([]);
+        setTotalPages(1);
+      }
+    } catch (error) {
+      console.error("Error cargando productos:", error);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // B. Cargar recomendaciones
+  const fetchRecommendations = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/products/random?count=4`);
+      if (response.ok) {
+        const data = await response.json();
+        const formattedRecs = (Array.isArray(data) ? data : []).map(formatProductImage);
+        setRandomRecommendations(formattedRecs);
+      }
+    } catch (error) {
+      console.error("Error cargando recomendaciones:", error);
+    }
+  };
+
+  const formatProductImage = (item) => ({
+    ...item,
+    image: (item.images && item.images.length > 0) 
+           ? item.images[0].url 
+           : "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1"
+  });
+
+  // --- EFECTOS ---
   useEffect(() => {
-    const randomProducts = getRandomProducts(accommodations, 10);
-    setRandomRecommendations(randomProducts);
+    fetchRecommendations();
   }, []);
 
-  // Calcular productos a mostrar en la página actual - ALOJAMIENTOS
-  const indexOfLastItemAccommodations = currentPageAccommodations * itemsPerPage;
-  const indexOfFirstItemAccommodations = indexOfLastItemAccommodations - itemsPerPage;
-  const currentAccommodations = accommodations.slice(
-    indexOfFirstItemAccommodations,
-    indexOfLastItemAccommodations
-  );
-  const totalPagesAccommodations = Math.ceil(accommodations.length / itemsPerPage);
+  useEffect(() => {
+    fetchProducts(currentPage, searchTerm);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage, searchTerm]);
 
-  // Calcular productos a mostrar en la página actual - RECOMENDACIONES
-  const indexOfLastItemRecommendations = currentPageRecommendations * itemsPerPage;
-  const indexOfFirstItemRecommendations = indexOfLastItemRecommendations - itemsPerPage;
-  const currentRecommendations = randomRecommendations.slice(
-    indexOfFirstItemRecommendations,
-    indexOfLastItemRecommendations
-  );
-  const totalPagesRecommendations = Math.ceil(randomRecommendations.length / itemsPerPage);
-
-  // Funciones de navegación - ALOJAMIENTOS
-  const handlePageChangeAccommodations = (pageNumber) => {
-    setCurrentPageAccommodations(pageNumber);
-    // Scroll suave hacia la sección
-    document.querySelector('.accommodations-section')?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
+  // --- MANEJADORES ---
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setCurrentPage(1); // Volver a la primera página al buscar
   };
 
-  const goToFirstPageAccommodations = () => {
-    handlePageChangeAccommodations(1);
-  };
-
-  const goToPreviousPageAccommodations = () => {
-    if (currentPageAccommodations > 1) {
-      handlePageChangeAccommodations(currentPageAccommodations - 1);
-    }
-  };
-
-  const goToNextPageAccommodations = () => {
-    if (currentPageAccommodations < totalPagesAccommodations) {
-      handlePageChangeAccommodations(currentPageAccommodations + 1);
-    }
-  };
-
-  // Funciones de navegación - RECOMENDACIONES
-  const handlePageChangeRecommendations = (pageNumber) => {
-    setCurrentPageRecommendations(pageNumber);
-    document.querySelector('.recommendations-section')?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-  };
-
-  const goToFirstPageRecommendations = () => {
-    handlePageChangeRecommendations(1);
-  };
-
-  const goToPreviousPageRecommendations = () => {
-    if (currentPageRecommendations > 1) {
-      handlePageChangeRecommendations(currentPageRecommendations - 1);
-    }
-  };
-
-  const goToNextPageRecommendations = () => {
-    if (currentPageRecommendations < totalPagesRecommendations) {
-      handlePageChangeRecommendations(currentPageRecommendations + 1);
-    }
-  };
+  const handlePageChange = (page) => setCurrentPage(page);
+  const goToFirstPage = () => setCurrentPage(1);
+  const goToPreviousPage = () => setCurrentPage(prev => Math.max(1, prev - 1));
+  const goToNextPage = () => setCurrentPage(prev => Math.min(totalPages, prev + 1));
 
   return (
     <>
       <Header />
-      <SearchBar/>
+      {/* Pasamos la función handleSearch al componente */}
+      <SearchBar onSearch={handleSearch} />
       <main className="home">
-        {/* SECCIÓN DE ALOJAMIENTOS */}
-        <section className="accommodations-section">
-          <h2>Buscar por tipo de alojamiento</h2>
-          
-          <div className="accommodations-grid">
-            {currentAccommodations.map((item) => (
-              <ProductCard key={item.id} {...item} />
-            ))}
-          </div>
+        
+        {loading ? (
+           <div style={{textAlign: 'center', padding: '50px', fontSize: '1.2rem'}}>
+             🌊 Buscando las mejores estancias para ti...
+           </div>
+        ) : (
+           <>
+            <section className="accommodations-section">
+              <h2>{searchTerm ? `Resultados para "${searchTerm}"` : "Buscar por tipo de alojamiento"}</h2>
+              
+              {products.length > 0 ? (
+                <>
+                  <div className="accommodations-grid">
+                    {products.map((item) => (
+                      <ProductCard key={item.id} {...item} />
+                    ))}
+                  </div>
 
-          {/* Paginación para alojamientos */}
-          {totalPagesAccommodations > 1 && (
-            <Pagination
-              currentPage={currentPageAccommodations}
-              totalPages={totalPagesAccommodations}
-              onPageChange={handlePageChangeAccommodations}
-              onFirst={goToFirstPageAccommodations}
-              onPrevious={goToPreviousPageAccommodations}
-              onNext={goToNextPageAccommodations}
-            />
-          )}
-        </section>
+                  {totalPages > 1 && (
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                        onFirst={goToFirstPage}
+                        onPrevious={goToPreviousPage}
+                        onNext={goToNextPage}
+                    />
+                  )}
+                </>
+              ) : (
+                <div style={{textAlign: 'center', padding: '40px'}}>
+                    <h3>No encontramos alojamientos con ese nombre.</h3>
+                    <p>Intenta con otra palabra clave.</p>
+                </div>
+              )}
+            </section>
 
-        {/* SECCIÓN DE RECOMENDACIONES */}
-        <section className="recommendations-section">
-          <h2>Recomendaciones</h2>
-          
-          <div className="recommendations-grid">
-            {currentRecommendations.map((item) => (
-              <ProductCard key={`rec-${item.id}`} {...item} />
-            ))}
-          </div>
-
-          {/* Paginación para recomendaciones */}
-          {totalPagesRecommendations > 1 && (
-            <Pagination
-              currentPage={currentPageRecommendations}
-              totalPages={totalPagesRecommendations}
-              onPageChange={handlePageChangeRecommendations}
-              onFirst={goToFirstPageRecommendations}
-              onPrevious={goToPreviousPageRecommendations}
-              onNext={goToNextPageRecommendations}
-            />
-          )}
-        </section>
+            {randomRecommendations.length > 0 && (
+              <section className="recommendations-section">
+                <h2>Recomendaciones para ti</h2>
+                <div className="recommendations-grid">
+                  {randomRecommendations.map((item) => (
+                    <ProductCard key={`rec-${item.id}`} {...item} />
+                  ))}
+                </div>
+              </section>
+            )}
+           </>
+        )}
       </main>
       <Footer/>
     </>
   );
-}
+}   
